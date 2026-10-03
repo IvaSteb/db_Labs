@@ -1,0 +1,48 @@
+// 1. Клієнти
+Table Users {
+  id integer [pk, increment]
+  name varchar(255) [not null]
+  email varchar(255) [unique, not null]
+  password_hash varchar(255) [not null]
+  registration_date timestamp [not null, default: `now()`]
+}
+
+// 2. Категорії товарів (Кімнатні рослини, сукуленти, флораріуми)
+Table Categories {
+  id integer [pk, increment]
+  name varchar(100) [unique, not null]
+  description text
+}
+
+// 3. Товари (рослини та готові композиції)
+Table Products {
+  id integer [pk, increment]
+  name varchar(255) [not null]
+  description text
+  price decimal(10, 2) [not null]
+  stock_quantity integer [not null, default: 0]
+  category_id integer [not null]
+}
+
+Ref: Categories.id < Products.category_id
+
+// 4. Замовлення 
+Table Orders {
+  id integer [pk, increment]
+  user_id integer [not null]
+  status varchar(50) [not null, default: `pending`]
+  created_at timestamp [not null, default: `now()`]
+}
+
+Ref: Users.id < Orders.user_id
+
+// 5. Позиції замовлення (склад чека - зв'язок «багато-до-багатьох»)
+Table Order_Items {
+  order_id integer [pk]
+  product_id integer [pk]
+  quantity integer [not null, default: 1]         
+  price_at_purchase decimal(10, 2) [not null]         
+}         
+          
+Ref: Orders.id < Order_Items.order_id         
+Ref: Products.id < Order_Items.product_id         

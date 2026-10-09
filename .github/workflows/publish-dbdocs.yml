@@ -24,4 +24,4 @@ jobs:
       - name: Build and publish dbdocs
         env:
           DBDOCS_TOKEN: ${{ secrets.DBDOCS_TOKEN }}
-        run: dbdocs build lab-work-01/schema.dbml --project "schema"
+        run: dbdocs build lab-work-1/schema.dbml --project "schema"
